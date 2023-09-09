@@ -1,13 +1,10 @@
 name: Build Linux Container Image and Push to ACR
 
 on:
-<<<<<<< HEAD
+  workflow_dispatch:
   push:
     branches:
-      - main
-=======
-  workflow_dispatch:
->>>>>>> 8398f9a7dd9967b5c98f1ba59655567f999012cc
+    - main
 
 jobs:
   build:
