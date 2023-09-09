@@ -1,10 +1,10 @@
-name: Build Linux Container Image and Push to ACR
+name: Docker Build and Push Workflow
 
 on:
-  workflow_dispatch:
-  push:
-    branches:
-    - main
+  workflow_run:
+    workflows: ["Test Workflow"]
+    types:
+      - completed
 
 jobs:
   build:
