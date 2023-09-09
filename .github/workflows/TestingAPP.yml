@@ -27,10 +27,10 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run tests
-        run: pytho test.py 
+        run: python test.py 
 
   trigger_second_workflow:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger second workflow
-        run: echo "Triggering the second workflow"
+      - name: Docker build and push to Azure
+        run: echo "Docker build and push to Azure"
