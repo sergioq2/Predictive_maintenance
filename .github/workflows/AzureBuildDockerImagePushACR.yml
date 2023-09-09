@@ -9,7 +9,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: dotnet
+        working-directory: .
     steps:
     - uses: actions/checkout@v2
     - uses: azure/docker-login@v1
@@ -18,5 +18,5 @@ jobs:
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
     - run: |
-        docker build . -t cloudquicklabsacr.azurecr.io/myapp:${{ github.sha }}
-        docker push cloudquicklabsacr.azurecr.io/myapp:${{ github.sha }}
+        docker build . -t maintenanceml.azurecr.io/maintenanceml:latest
+        docker push maintenanceml.azurecr.io/maintenanceml:latest
