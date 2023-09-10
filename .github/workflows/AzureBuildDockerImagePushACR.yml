@@ -2,7 +2,7 @@ name: Docker Build and Push Workflow
 
 on:
   workflow_run:
-    workflows: ["Test Workflow"]
+    workflows: ["Test APP Workflow"]
     types:
       - completed
 

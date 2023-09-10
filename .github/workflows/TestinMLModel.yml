@@ -1,51 +1,34 @@
 name: Test ML Workflow
 
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
+    workflow_dispatch:
+    push:
+      branches:
       - main
 
 jobs:
-  test:
+  accuracy_check:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout código
+      uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.9
+    - name: Ejecutar model_test.py
+      run: python model_test.py
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+    - name: Leer el valor de accuracy
+      id: read_accuracy
+      run: echo "::set-output name=accuracy::$(cat accuracy.txt)"
 
-      - name: Run tests
-        id: test
-        run: python model_test.py
+    - name: Validar precisión
+      run: |
+        accuracy=$1
+        if [ $(echo "$accuracy >= 0.9" | bc -l) -eq 0 ]; then
+          echo "Error: La precisión es menor que 0.9"
+          exit 1
+        fi
+      env:
+        ACCURACY: ${{ steps.read_accuracy.outputs.accuracy }}
 
-      - name: Check accuracy
-        id: accuracy_check
-        run: |
-          accuracy=$(cat accuracy.txt || echo "0")
-          if (( $(echo "$accuracy >= 0.9" | bc -l) )); then
-            echo "Accuracy is greater than or equal to 0.9: $accuracy"
-            echo "::set-output name=accuracy::true"
-          else
-            echo "Accuracy is less than 0.9: $accuracy"
-            echo "::set-output name=accuracy::false"
-            exit 1  # Generar un error si la precisión es menor a 0.9
-
-  trigger_second_workflow:
-    runs-on: ubuntu-latest
-    needs: test
-    if: ${{ needs.test.outputs.accuracy_check == 'true' }}
-    steps:
-      - name: Test APP Workflow
-        run: echo "Test APP Workflow"
 
