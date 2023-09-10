@@ -43,8 +43,8 @@ jobs:
 
   trigger_second_workflow:
     runs-on: ubuntu-latest
-    if: ${{ steps.accuracy_check.outputs.accuracy == 'true' }}
+    needs: test
+    if: ${{ needs.test.outputs.accuracy_check == 'true' }}
     steps:
       - name: Test APP Workflow
         run: echo "Test APP Workflow"
-
