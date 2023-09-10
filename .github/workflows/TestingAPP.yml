@@ -1,4 +1,4 @@
-name: Test Workflow
+name: Test APP Workflow
 
 on:
   workflow_dispatch:
@@ -29,7 +29,7 @@ jobs:
       - name: Run tests
         run: python test.py 
 
-  trigger_second_workflow:
+  trigger_third_workflow:
     runs-on: ubuntu-latest
     steps:
       - name: Docker build and push to Azure

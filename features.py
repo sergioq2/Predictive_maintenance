@@ -21,10 +21,14 @@ def feature_preprocess(df):
         columns=df.columns
     )
     return scaled_df
+
 def FeatureEngineering(json_data):
-    data = json.loads(json_data)
-    df = pd.DataFrame(data, index=[0])
-    df = feature_preprocess(df)
+    try:
+        data = json.loads(json_data)
+        df = pd.DataFrame(data, index=[0])
+        df = feature_preprocess(df)
+    except:
+        df = feature_preprocess(json_data)
     return df
 
 if __name__ == '__main__':
