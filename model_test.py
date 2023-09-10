@@ -8,7 +8,9 @@ def model_validation():
     y = validation['Target']
     y_pred = X.apply(lambda x: prediction(X), axis=1)
     accuracy = accuracy_score(y, y_pred)
-    print(accuracy)
+    with open('accuracy.txt', 'w') as f:
+        f.write(str(accuracy))
+    return accuracy
 
 if __name__ == '__main__':
     model_validation()
