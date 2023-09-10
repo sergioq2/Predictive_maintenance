@@ -22,7 +22,7 @@ app = FastAPI()
 @app.get("/home")
 def home():
     # Return a welcome message for the API
-    return {"message": "Welcome to the API to predict the failure of the Machine by Sergio Quintero"}
+    return {"message": "Welcome to the API by Sergio Quintero"}
 
 # Define a route to handle the prediction endpoint
 @app.post("/predict")
