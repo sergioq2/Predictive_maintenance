@@ -32,9 +32,13 @@ jobs:
       - name: Check accuracy
         if: steps.test.outcome == 'success'
         run: |
-          accuracy=$(python -c "print($(cat accuracy.txt) > 0.9)")
-          echo "Accuracy is greater than 0.9: $accuracy"
-          echo "::set-output name=accuracy::$accuracy"
+            accuracy=$(cat accuracy.txt || echo "0")
+            if (( $(echo "$accuracy > 0.9" | bc -l) )); then
+                echo "Accuracy is greater than 0.9: $accuracy"
+                echo "::set-output name=accuracy::true"
+            else
+                echo "Accuracy is not greater than 0.9: $accuracy"
+                echo "::set-output name=accuracy::false"
 
   trigger_second_workflow:
     needs: test
