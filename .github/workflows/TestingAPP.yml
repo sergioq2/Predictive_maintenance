@@ -5,18 +5,20 @@ on:
     workflows: ["Test ML Workflow"]
     types:
       - completed
-
+      
 jobs:
   test:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3
         with:
           python-version: 3.9
+
 
       - name: Install dependencies
         run: pip install -r requirements.txt
@@ -24,10 +26,9 @@ jobs:
       - name: Run tests
         run: python test.py 
 
-  trigger_third_workflow:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.outputs.accuracy == 'true' }}
-    steps:
-      - name: Docker build and push to Azure
-        run: echo "Docker build and push to Azure"
+trigger_third_workflow:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Docker build and push to Azure
+      run: echo "Docker build and push to Azure"
 

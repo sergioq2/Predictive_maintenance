@@ -11,10 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3
         with:
           python-version: 3.9
 
@@ -38,5 +38,9 @@ jobs:
         env:
           ACCURACY: ${{ steps.read_accuracy.outputs.accuracy }}
 
-
+trigger_second_workflow:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Test APP Workflow
+      run: echo "Test APP Workflow"
 
