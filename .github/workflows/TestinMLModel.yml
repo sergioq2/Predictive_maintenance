@@ -1,34 +1,42 @@
 name: Test ML Workflow
 
 on:
-    workflow_dispatch:
-    push:
-      branches:
+  workflow_dispatch:
+  push:
+    branches:
       - main
 
 jobs:
-  accuracy_check:
+  test:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout código
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Ejecutar model_test.py
-      run: python model_test.py
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
 
-    - name: Leer el valor de accuracy
-      id: read_accuracy
-      run: echo "::set-output name=accuracy::$(cat accuracy.txt)"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
-    - name: Validar precisión
-      run: |
-        accuracy=$1
-        if [ $(echo "$accuracy >= 0.9" | bc -l) -eq 0 ]; then
-          echo "Error: La precisión es menor que 0.9"
-          exit 1
-        fi
-      env:
-        ACCURACY: ${{ steps.read_accuracy.outputs.accuracy }}
+      - name: Ejecutar model_test.py
+        run: python model_test.py
+
+      - name: Leer el valor de accuracy
+        id: read_accuracy
+        run: echo "::set-output name=accuracy::$(cat accuracy.txt)"
+
+      - name: Validar precisión
+        run: |
+          accuracy=$1
+          if [ $(echo "$accuracy >= 0.9" | bc -l) -eq 0 ]; then
+            echo "Error: La precisión es menor que 0.9"
+            exit 1
+          fi
+        env:
+          ACCURACY: ${{ steps.read_accuracy.outputs.accuracy }}
+
 
 
