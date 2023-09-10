@@ -38,9 +38,8 @@ jobs:
         env:
           ACCURACY: ${{ steps.read_accuracy.outputs.accuracy }}
 
-trigger_second_workflow:
-  runs-on: ubuntu-latest
-  steps:
-    - name: Test APP Workflow
-      run: echo "Test APP Workflow"
-
+  trigger_second_workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test APP Workflow
+        run: echo "Test APP Workflow"
