@@ -31,6 +31,7 @@ jobs:
 
       - name: Check accuracy
         if: steps.test.outcome == 'success'
+        id: accuracy_check
         run: |
           accuracy=$(cat accuracy.txt || echo "0")
           if (( $(echo "$accuracy > 0.9" | bc -l) )); then

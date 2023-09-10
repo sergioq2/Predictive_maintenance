@@ -26,6 +26,8 @@ jobs:
 
   trigger_third_workflow:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.outputs.accuracy == 'true' }}
     steps:
       - name: Docker build and push to Azure
         run: echo "Docker build and push to Azure"
+
