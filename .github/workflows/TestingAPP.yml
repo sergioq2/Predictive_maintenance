@@ -6,29 +6,29 @@ on:
     types:
       - completed
       
-      jobs:
-        test:
-          runs-on: ubuntu-latest
+jobs:
+  test:
+    runs-on: ubuntu-latest
       
-          steps:
-            - name: Checkout code
-              uses: actions/checkout@v3
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
       
-            - name: Set up Python
-              uses: actions/setup-python@v3
-              with:
-                python-version: 3.9
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+            python-version: 3.9
       
       
-            - name: Install dependencies
-              run: pip install -r requirements.txt
+      - name: Install dependencies
+        run: pip install -r requirements.txt
       
-            - name: Run tests
-              run: python test.py 
+      - name: Run tests
+        run: python test.py 
       
-        trigger_third_workflow:
-          runs-on: ubuntu-latest
-          steps:
-            - name: Docker build and push to Azure
-              run: echo "Docker build and push to Azure"
+  trigger_third_workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Docker build and push to Azure
+        run: echo "Docker build and push to Azure"
 
