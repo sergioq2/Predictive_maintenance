@@ -30,22 +30,20 @@ jobs:
         run: python model_test.py
 
       - name: Check accuracy
-        if: steps.test.outcome == 'success'
         id: accuracy_check
         run: |
           accuracy=$(cat accuracy.txt || echo "0")
-          if (( $(echo "$accuracy > 0.9" | bc -l) )); then
-            echo "Accuracy is greater than 0.9: $accuracy"
+          if (( $(echo "$accuracy >= 0.9" | bc -l) )); then
+            echo "Accuracy is greater than or equal to 0.9: $accuracy"
             echo "::set-output name=accuracy::true"
           else
-            echo "Accuracy is not greater than 0.9: $accuracy"
+            echo "Accuracy is less than 0.9: $accuracy"
             echo "::set-output name=accuracy::false"
-          fi
+            exit 1  # Generar un error si la precisión es menor a 0.9
 
   trigger_second_workflow:
-    needs: test
     runs-on: ubuntu-latest
-    if: ${{ needs.test.outputs.accuracy == 'true' }}
+    if: ${{ steps.accuracy_check.outputs.accuracy == 'true' }}
     steps:
       - name: Test APP Workflow
         run: echo "Test APP Workflow"
